@@ -241,3 +241,10 @@ pipeline:
     when:
       event: tag
       branch: [ master, release-* ]
+
+  notify:
+    slack:
+      image: plugins/slack
+      recipient: schnie
+      secrets: [ slack_webhook ]
+      when: [ success, failure ]
