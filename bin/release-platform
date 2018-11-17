@@ -11,7 +11,7 @@ read -p "***ATTENTION*** Deploy astronomer/astronomer #${ASTRONOMER_BUILD} as v$
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     printf "Deploying #${ASTRONOMER_BUILD} as $2...\n"
-    drone deploy astronomer/astronomer ${ASTRONOMER_BUILD} production -p ASTRONOMER_VERSION=$2
+    drone deploy astronomer/astronomer ${ASTRONOMER_BUILD} development -p ASTRONOMER_VERSION=$2
     printf "\n"
 else
     printf "Skipped deployment.\n\n"
@@ -25,7 +25,7 @@ read -p "***ATTENTION*** Deploy astronomer/helm.astronomer.io #${HELM_BUILD} as 
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     printf "Deploying #${HELM_BUILD} as $2...\n"
-    drone deploy astronomer/helm.astronomer.io ${HELM_BUILD} production -p ASTRONOMER_VERSION=$2
+    drone deploy astronomer/helm.astronomer.io ${HELM_BUILD} development -p ASTRONOMER_VERSION=$2
 else
     printf "Skipped deployment.\n"
 fi
