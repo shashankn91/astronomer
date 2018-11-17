@@ -246,4 +246,10 @@ pipeline:
     image: plugins/slack
     recipient: schnie
     secrets: [ slack_webhook ]
+    template: > 
+      {{#success build.status}}
+        build {{build.number}} succeeded.
+      {{else}}
+        build {{build.number}} falied.
+      {{/success}}
     when: [ success, failure ]
