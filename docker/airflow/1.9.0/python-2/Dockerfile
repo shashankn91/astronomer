@@ -22,8 +22,9 @@ LABEL io.astronomer.docker=true
 LABEL io.astronomer.docker.module="airflow"
 LABEL io.astronomer.docker.component="airflow"
 LABEL io.astronomer.docker.airflow.version="1.9.0"
+LABEL io.astronomer.docker.python.version="python2"
 
-ARG ORG="astronomer"
+ARG ORG="astronomerio"
 ARG VERSION="1.9.0-1"
 ARG SUBMODULES="all, celery, redis, statsd"
 
@@ -53,29 +54,29 @@ RUN apk update \
 		linux-headers \
 		mariadb-dev \
 		postgresql-dev \
-		python3-dev \
+		python-dev \
 	&& apk add --no-cache \
 		bash \
 		ca-certificates \
 		mariadb-connector-c \
 		postgresql \
-		python3 \
+		python2 \
 		tini \
+    py-pip \
 	&& update-ca-certificates \
-	&& pip3 install --no-cache-dir --upgrade pip==18.1 \
-	&& pip3 install --no-cache-dir --upgrade setuptools==39.0.1 \
-	&& pip3 install --no-cache-dir cython \
-	&& pip3 install --no-cache-dir "${AIRFLOW_MODULE}" \
-	&& pip3 install --no-cache-dir "sqlalchemy>=1.1.15,<1.2.0" \
-	&& pip3 install --no-cache-dir "redis>=2.10.5,<3" \
-	&& pip3 uninstall -y snakebite \
+  && pip install --no-cache-dir --upgrade pip==18.1 \
+	&& pip install --no-cache-dir --upgrade setuptools==39.0.1 \
+	&& pip install --no-cache-dir cython \
+	&& pip install --no-cache-dir "${AIRFLOW_MODULE}" \
+	&& pip install --no-cache-dir "sqlalchemy==1.2.12" \
+	&& pip install --no-cache-dir "redis==2.10.6" \
 	&& apk del .build-deps \
-	&& ln -sf /usr/bin/python3 /usr/bin/python \
-	&& ln -sf /usr/bin/pip3 /usr/bin/pip
+	&& ln -sf /usr/bin/python2 /usr/bin/python \
+	&& ln -sf /usr/bin/pip2 /usr/bin/pip
 
 # Create logs directory so we can own it when we mount volumes
 RUN mkdir -p ${AIRFLOW_HOME}/logs
-
+#
 # Copy entrypoint to root
 COPY include/entrypoint /
 
